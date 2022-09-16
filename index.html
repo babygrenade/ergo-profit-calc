@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Ergo Mining Profitability Calculator</title>
+</head>
+<body onload="calculate()">
+    <h1>Ergo Mining Breakeven Price Calculator</h1>
+    <div id = "inputs">
+        <form id ="input form">
+            <Table>
+                <tr>
+                    <td>My Hashrate (Mh/s)</td>
+                    <td><input type ="text" id = "my_hashrate" value = "160" onchange='calculate()'></td>
+                </tr>
+                <tr>
+                    <td>Power (W) </td>
+                    <td><input type ="text" id = "power" value = "130" onchange='calculate()'></td>
+                </tr>
+                <tr>    
+                    <td>Power Cost (USD/kWh)</td>
+                    <td><input type ="text" id = "cost" value = "0.10" onchange='calculate()'></td> 
+                </tr>
+                <tr>
+                    <td>Network Hashrate (Th/s)</td>
+                    <td><input type ="text" id = "net_hashrate" value = "170" onchange='calculate()'></td>
+                </tr>
+                <tr>
+                    <td>Block Reward (Erg)</td>
+                    <td><input type ="text" id = "block_reward" value = "48" onchange='calculate()'></td>
+                </tr>
+            </Table>
+        </form>
+    </div>
+    <div>
+        Minimum Erg Price for Breakeven: $
+        <span id="result" style="display: inline">result</span>
+    </div>
+</body>
+<script>
+    function calculate() {
+        var my_hashrate = document.getElementById("my_hashrate").value;
+        var power = document.getElementById("power").value;
+        var cost = document.getElementById("cost").value;
+        var net_hashrate = document.getElementById("net_hashrate").value * 1000 * 1000;
+        var block_reward = document.getElementById("block_reward").value;
+        var kwh = (power * 24) / 1000;
+        var daily_reward = 720 * block_reward;
+        var break_even = kwh * cost;
+        var reward_per_mh = daily_reward / net_hashrate;
+        var target_price = break_even / (reward_per_mh * my_hashrate);
+        document.getElementById("result").innerText = Math.round(target_price * 100)/100;
+    }
+</script>
